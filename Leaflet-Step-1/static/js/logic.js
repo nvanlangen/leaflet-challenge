@@ -27,24 +27,27 @@ d3.json(url, function (data) {
 function colorMag(magnitude) {
   // switch function here matches magnitude with color
   var color = "";
+  if (magnitude < 0) {
+    magnitude = 0;
+  }
   switch (Math.floor(magnitude)) {
     case 0:
-      color = "lightgray";
+      color = "gray";
       break;
     case 1:
-      color = "lightblue";
-      break;
-    case 2:
       color = "khaki";
       break;
-    case 3:
+    case 2:
       color = "yellowgreen";
       break;
-    case 4:
+    case 3:
       color = "orange";
       break;
-    case 5:
+    case 4:
       color = "lightcoral";
+      break;
+    case 5:
+      color = "darkblue";
       break;
     default:
       color = "darkred";
@@ -91,8 +94,14 @@ legend.onAdd = function (map) {
   // loop through our density intervals and generate a label with a colored square for each interval
   for (var i = 0; i < mag.length; i++) {
     div.innerHTML +=
-      '<i style="background:' + colorMag(mag[i]) + '"></i>' +
-      mag[i] + (mag[i + 1] ? '&ndash;' + mag[i + 1] + '<br>' : '+');
+      '<i style="background:' + colorMag(mag[i]) + '"></i>'
+
+    if (i == 0) {
+      div.innerHTML += '< ' + mag[i + 1] + '<br>'
+    }
+    else {
+      div.innerHTML += mag[i] + (mag[i + 1] ? '&ndash;' + mag[i + 1] + '<br>' : '+');
+    }
   }
 
   return div;
